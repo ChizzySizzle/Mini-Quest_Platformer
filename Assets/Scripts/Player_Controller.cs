@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.InputSystem.Controls;
 
 public class Player_Controller : MonoBehaviour
 {
@@ -12,6 +13,7 @@ public class Player_Controller : MonoBehaviour
     public GameObject bullet;
 
     [Header("Gameplay Variables")]
+    public float health = 10f;
     public float speed = 1f;
     public float maxSpeed = 10f;
     public float jumpForce = 1f;
@@ -25,14 +27,12 @@ public class Player_Controller : MonoBehaviour
     private float lastFire;
     private bool isGrounded;
 
-
-
     void Start() {
         Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
     }
 
-    void Update() {
+    void FixedUpdate() {
         float h = horizontalSens * Input.GetAxis("Mouse X");
         
         horizontalRotation = Quaternion.Euler(0, h, 0);
@@ -50,6 +50,14 @@ public class Player_Controller : MonoBehaviour
     {
         if (collision.gameObject.CompareTag("Ground")){
             isGrounded = true;
+        }
+    }
+
+    public void SetHealth(float healthDelta) {
+        health += healthDelta;
+        
+        if (health <= 0) {
+            Debug.Log("You Have Died");
         }
     }
 

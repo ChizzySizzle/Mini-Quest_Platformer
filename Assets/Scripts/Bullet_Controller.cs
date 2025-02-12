@@ -5,7 +5,8 @@ using UnityEngine.InputSystem.Interactions;
 
 public class Bullet_Controller : MonoBehaviour
 {
-    public float bulletSpeed;
+    public float bulletSpeed = 30f;
+    public float bulletDamage = 2f;
     private Rigidbody rb;
     private Player_Controller player;
 
@@ -19,6 +20,18 @@ public class Bullet_Controller : MonoBehaviour
         
         rb.velocity = transform.forward * bulletSpeed + p_Vel;
         Invoke("DestroySelf", 2f);
+    }
+
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Enemy")) {
+            Enemy_Controller enemy = collision.gameObject.GetComponent<Enemy_Controller>();
+            enemy.SetHealth(bulletDamage);
+            DestroySelf();
+        }
+        if (collision.gameObject.CompareTag("Ground")) {
+            DestroySelf();
+        }
     }
 
     void DestroySelf()
