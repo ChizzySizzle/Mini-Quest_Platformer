@@ -434,8 +434,8 @@ MonoBehaviour:
   m_ScreenY: 0.5
   m_DeadZoneWidth: 0
   m_DeadZoneHeight: 0
-  m_SoftZoneWidth: 0.2
-  m_SoftZoneHeight: 0.2
+  m_SoftZoneWidth: 0.1
+  m_SoftZoneHeight: 0.1
   m_BiasX: 0
   m_BiasY: 0
   m_CenterOnActivate: 1
@@ -778,7 +778,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4958161019869926324, guid: 291e7a3375505994abc91c08c2f56a3d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 3.72
+      value: 1.36
       objectReference: {fileID: 0}
     - target: {fileID: 4958161019869926324, guid: 291e7a3375505994abc91c08c2f56a3d, type: 3}
       propertyPath: m_LocalPosition.z
