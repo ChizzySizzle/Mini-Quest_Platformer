@@ -7,9 +7,12 @@ public class Enemy_Controller : MonoBehaviour
 {
     public float chaseRange = 10f;
     public float health = 10f;
+    public float hitDamage = 1f;
+    public float hitCooldown = .5f;
 
     private NavMeshAgent agent;
     private GameObject player;
+    private float lastHit;
     
     void Start() {
         player = GameObject.Find("Player");
@@ -24,15 +27,33 @@ public class Enemy_Controller : MonoBehaviour
         }
     }
 
+    void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.CompareTag("Player")) {
+            if (Time.time - lastHit > hitCooldown) {
+                player.GetComponent<Player_Controller>().SetHealth(hitDamage);
+                lastHit = Time.time;
+            }
+        }
+    }
+
+    void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.CompareTag("Projectile")) {
+            Bullet_Controller bullet = collision.GetComponent<Bullet_Controller>();
+            SetHealth(bullet.bulletDamage);
+        }
+    }
+
     public void SetHealth(float damage) {
         health -= damage;
 
         if (health <= 0) {
-            Die();
+            DestroySelf();
         }
     }
 
-    void Die() {
+    void DestroySelf() {
         Destroy(gameObject);
     }
 }

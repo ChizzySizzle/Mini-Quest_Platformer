@@ -16,11 +16,9 @@ public class Enemy_Bullet_Controller : MonoBehaviour
         Invoke("DestroySelf", 2f);
     }
 
-        void OnCollisionEnter(Collision collision)
+        void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Player")) {
-            Player_Controller player = collision.gameObject.GetComponent<Player_Controller>();
-            player.SetHealth(bulletDamage);
             DestroySelf();
         }
         if (collision.gameObject.CompareTag("Ground")) {

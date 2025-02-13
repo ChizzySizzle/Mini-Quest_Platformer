@@ -7,6 +7,7 @@ public class ShootEnemy_Controller : MonoBehaviour
 {
     public float enemyRange = 10f;
     public float fireRate = .5f;
+    public float health = 4f;
     public GameObject firePoint;
     public GameObject bullet;
 
@@ -31,5 +32,26 @@ public class ShootEnemy_Controller : MonoBehaviour
                 lastFire = Time.time;
             }
         }
+    }
+
+    void OnTriggerEnter(Collider collision)
+    {
+        if (collision.gameObject.CompareTag("Projectile")) {
+            Bullet_Controller bullet = collision.GetComponent<Bullet_Controller>();
+            SetHealth(bullet.bulletDamage);
+        }
+    }
+
+    public void SetHealth(float damage) {
+        health -= damage;
+        Debug.Log(health);
+
+        if (health <= 0) {
+            DestroySelf();
+        }
+    }
+
+    void DestroySelf() {
+        Destroy(gameObject);
     }
 }

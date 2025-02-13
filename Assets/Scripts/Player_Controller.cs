@@ -1,5 +1,7 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEditor;
 using UnityEditor.Callbacks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -14,22 +16,25 @@ public class Player_Controller : MonoBehaviour
 
     [Header("Gameplay Variables")]
     public float health = 10f;
-    public float speed = 1f;
+    public float acceleration = 1f;
     public float maxSpeed = 10f;
     public float jumpForce = 1f;
     public float horizontalSens = 2.0f;
     public float fireRate = .3f;
 
     // Private Variables
+    private Game_Controller gameController;
     private Vector3 moveVector;
     private Rigidbody rb;
     private Quaternion horizontalRotation;
     private float lastFire;
     private bool isGrounded;
+    private bool isRunning;
 
     void Start() {
         Cursor.lockState = CursorLockMode.Locked;
         rb = GetComponent<Rigidbody>();
+        gameController = FindObjectOfType<Game_Controller>();
     }
 
     void FixedUpdate() {
@@ -42,7 +47,7 @@ public class Player_Controller : MonoBehaviour
         Vector3 moveDirection = transform.right * moveVector.x + transform.forward * moveVector.z;
 
         if (rb.velocity.magnitude < maxSpeed) {
-            rb.AddForce(moveDirection * speed);
+            rb.AddForce(moveDirection * acceleration);
         }
     }
 
@@ -53,11 +58,23 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
+    void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Projectile")) {
+            Enemy_Bullet_Controller bullet = other.GetComponent<Enemy_Bullet_Controller>();
+            SetHealth(bullet.bulletDamage);
+        }
+
+        if (other.gameObject.CompareTag("Goal")) {
+            gameController.EndGame("Win");
+        }
+    }
+
     public void SetHealth(float healthDelta) {
         health += healthDelta;
-        
+
         if (health <= 0) {
-            Debug.Log("You Have Died");
+            gameController.EndGame("Lose");
         }
     }
 
