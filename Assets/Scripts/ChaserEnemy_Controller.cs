@@ -27,7 +27,7 @@ public class Enemy_Controller : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter(Collision collision)
+    void OnCollisionStay(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player")) {
             if (Time.time - lastHit > hitCooldown) {
@@ -37,11 +37,13 @@ public class Enemy_Controller : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider collision)
+    void OnTriggerEnter(Collider collider)
     {
-        if (collision.gameObject.CompareTag("Projectile")) {
-            Bullet_Controller bullet = collision.GetComponent<Bullet_Controller>();
-            SetHealth(bullet.bulletDamage);
+        if (collider.gameObject.CompareTag("Projectile")) {
+            if (collider.GetComponent<Bullet_Controller>() != null) { 
+                Bullet_Controller bullet = collider.GetComponent<Bullet_Controller>();
+                SetHealth(bullet.bulletDamage);
+            }
         }
     }
 

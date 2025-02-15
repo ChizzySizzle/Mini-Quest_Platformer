@@ -13,13 +13,11 @@ public class ShootEnemy_Controller : MonoBehaviour
 
     
     private GameObject player;
-    private Rigidbody rb;
     private float lastFire = 0f;
 
 
     void Start() {
-        player = GameObject.Find("Player");
-        rb = GetComponent<Rigidbody>();
+        player = GameObject.FindGameObjectWithTag("Player");
     }
 
     void FixedUpdate() {
@@ -34,17 +32,18 @@ public class ShootEnemy_Controller : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider collision)
+    void OnTriggerEnter(Collider collider)
     {
-        if (collision.gameObject.CompareTag("Projectile")) {
-            Bullet_Controller bullet = collision.GetComponent<Bullet_Controller>();
-            SetHealth(bullet.bulletDamage);
+        if (collider.gameObject.CompareTag("Projectile")) {
+            if (collider.GetComponent<Bullet_Controller>() != null) { 
+                Bullet_Controller bullet = collider.GetComponent<Bullet_Controller>();
+                SetHealth(bullet.bulletDamage);
+            }
         }
     }
 
     public void SetHealth(float damage) {
         health -= damage;
-        Debug.Log(health);
 
         if (health <= 0) {
             DestroySelf();

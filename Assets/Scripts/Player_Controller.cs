@@ -1,11 +1,6 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEditor;
-using UnityEditor.Callbacks;
+
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.InputSystem.Controls;
 
 public class Player_Controller : MonoBehaviour
 {
@@ -13,6 +8,7 @@ public class Player_Controller : MonoBehaviour
     public Transform head;
     public GameObject firePoint;
     public GameObject bullet;
+    public HealthBar_Controller healthBar;
 
     [Header("Gameplay Variables")]
     public float health = 10f;
@@ -29,7 +25,6 @@ public class Player_Controller : MonoBehaviour
     private Quaternion horizontalRotation;
     private float lastFire;
     private bool isGrounded;
-    private bool isRunning;
 
     void Start() {
         Cursor.lockState = CursorLockMode.Locked;
@@ -65,13 +60,19 @@ public class Player_Controller : MonoBehaviour
             SetHealth(bullet.bulletDamage);
         }
 
+        if (other.CompareTag("Boundary")) {
+            gameController.EndGame("Lose");
+        }
+
         if (other.gameObject.CompareTag("Goal")) {
-            gameController.EndGame("Win");
+            gameController.EndGame("Win");   
         }
     }
 
     public void SetHealth(float healthDelta) {
         health += healthDelta;
+
+        healthBar.UpdateHealthbar(health);
 
         if (health <= 0) {
             gameController.EndGame("Lose");
