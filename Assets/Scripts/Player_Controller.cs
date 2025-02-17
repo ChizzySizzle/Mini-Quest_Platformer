@@ -53,18 +53,30 @@ public class Player_Controller : MonoBehaviour
         }
     }
 
-    void OnTriggerEnter(Collider other)
+    void OnCollisionExit(Collision collision) {
+        if (collision.gameObject.CompareTag("Ground")){
+            isGrounded = false;
+        }
+    }
+
+    void OnTriggerEnter(Collider trigger)
     {
-        if (other.gameObject.CompareTag("Projectile")) {
-            Enemy_Bullet_Controller bullet = other.GetComponent<Enemy_Bullet_Controller>();
-            SetHealth(bullet.bulletDamage);
+        if (trigger.gameObject.CompareTag("Projectile")) {
+            SetHealth(trigger.GetComponent<Enemy_Bullet_Controller>().bulletDamage);
         }
 
-        if (other.CompareTag("Boundary")) {
+        if (trigger.CompareTag("Boundary")) {
             gameController.EndGame("Lose");
         }
 
-        if (other.gameObject.CompareTag("Goal")) {
+        if (trigger.CompareTag("Pickup")) {
+            Pickup_Controller pickup = trigger.GetComponent<Pickup_Controller>();
+            SetHealth(pickup.healthIncrease);
+            Instantiate(pickup.pickupEffect, gameObject.transform.position, gameObject.transform.rotation);
+            pickup.DestroySelf();
+        }
+
+        if (trigger.gameObject.CompareTag("Goal")) {
             gameController.EndGame("Win");   
         }
     }

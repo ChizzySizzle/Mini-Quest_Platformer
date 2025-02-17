@@ -9,11 +9,12 @@ TagManager:
   - Projectile
   - Goal
   - Boundary
+  - Pickup
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Post-Processing
   - Water
   - UI
   - 

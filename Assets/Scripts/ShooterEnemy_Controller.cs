@@ -10,6 +10,7 @@ public class ShootEnemy_Controller : MonoBehaviour
     public float health = 4f;
     public GameObject firePoint;
     public GameObject bullet;
+    public Barrier_Controller barrier;
 
     
     private GameObject player;
@@ -51,6 +52,8 @@ public class ShootEnemy_Controller : MonoBehaviour
     }
 
     void DestroySelf() {
+        if (barrier != null)
+            barrier.BarrierCheck();
         Destroy(gameObject);
     }
 }

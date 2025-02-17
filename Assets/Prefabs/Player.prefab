@@ -185,12 +185,13 @@ MonoBehaviour:
   head: {fileID: 205837434995161491}
   firePoint: {fileID: 4533407435613919869}
   bullet: {fileID: 2861984243117433665, guid: 2fcd519c75536624abe5ef7965535e10, type: 3}
+  healthBar: {fileID: 0}
   health: 10
-  speed: 100
+  acceleration: 100
   maxSpeed: 10
-  jumpForce: 5
+  jumpForce: 15
   horizontalSens: 10
-  fireRate: 0.3
+  fireRate: 0.2
 --- !u!114 &6363532788225857497
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class Enemy_Controller : MonoBehaviour
     public float health = 10f;
     public float hitDamage = 1f;
     public float hitCooldown = .5f;
+    public Barrier_Controller barrier;
 
     private NavMeshAgent agent;
     private GameObject player;
@@ -56,6 +57,8 @@ public class Enemy_Controller : MonoBehaviour
     }
 
     void DestroySelf() {
+        if (barrier != null)
+            barrier.BarrierCheck();
         Destroy(gameObject);
     }
 }
