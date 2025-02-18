@@ -4,15 +4,18 @@ using UnityEngine.UI;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
+using UnityEngine.InputSystem;
 
 public class Game_Controller : MonoBehaviour
 {
     public static Game_Controller instance;
+    public GameObject IntroScreen;
 
     private int deaths = 0;
     private GameObject endScreen;
     private TMP_Text endText;
     private float waitAfterEnd;
+
 
     void Awake() {
         if (instance == null) {
@@ -22,6 +25,19 @@ public class Game_Controller : MonoBehaviour
         else {
             Destroy(gameObject);
         }
+    }
+
+    void Start()
+    {
+        StartCoroutine("IntroSequence");
+    }
+
+    private IEnumerator IntroSequence() {
+        IntroScreen.SetActive(true);
+        Time.timeScale = 0;
+        yield return new WaitForSecondsRealtime(18);
+        IntroScreen.SetActive(false);
+        Time.timeScale = 1;
     }
 
     public void EndGame(string endState) {
@@ -67,5 +83,16 @@ public class Game_Controller : MonoBehaviour
 
     public float GetDeaths(){
         return deaths;
+    }
+
+    public void OnEscape() {
+        if (GameObject.Find("IntroScreen") != null) {
+            StopCoroutine("IntroSequence");
+            Time.timeScale = 1;
+            IntroScreen.SetActive(false);
+        }
+        else {
+            Application.Quit();
+        }
     }
 }

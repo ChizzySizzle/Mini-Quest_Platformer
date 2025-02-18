@@ -10,14 +10,18 @@ public class Enemy_Controller : MonoBehaviour
     public float hitDamage = 1f;
     public float hitCooldown = .5f;
     public Barrier_Controller barrier;
+    public Animator animationController;
+    public AudioClip hitNoise;
 
     private NavMeshAgent agent;
     private GameObject player;
+    private new AudioSource audio;
     private float lastHit;
     
     void Start() {
         player = GameObject.Find("Player");
         agent = GetComponent<NavMeshAgent>();
+        audio = GetComponent<AudioSource>();
     }
 
     void FixedUpdate() {
@@ -25,6 +29,10 @@ public class Enemy_Controller : MonoBehaviour
 
         if (distanceToPlayer <= chaseRange) {
             agent.SetDestination(player.transform.position);
+            animationController.SetBool("IsRunning", true);
+        }
+        else {
+            animationController.SetBool("IsRunning", false);
         }
     }
 
@@ -42,6 +50,7 @@ public class Enemy_Controller : MonoBehaviour
     {
         if (collider.gameObject.CompareTag("Projectile")) {
             if (collider.GetComponent<Bullet_Controller>() != null) { 
+                audio.PlayOneShot(hitNoise, .8f);
                 Bullet_Controller bullet = collider.GetComponent<Bullet_Controller>();
                 SetHealth(bullet.bulletDamage);
             }

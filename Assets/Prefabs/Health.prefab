@@ -126,5 +126,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotationSpeed: 1
-  healthIncrease: 1
+  healthIncrease: 2
   pickupEffect: {fileID: 875482847506032831, guid: e814c466090934848ab5109abf90d0ea, type: 3}
