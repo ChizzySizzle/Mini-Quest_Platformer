@@ -4,10 +4,14 @@ using UnityEngine;
 
 public class Enemy_Bullet_Controller : MonoBehaviour
 {
+    // Variables to change bullet behavior
     public float bulletSpeed = 30f;
     public float bulletDamage = -1f;
+
     private Rigidbody rb;
 
+    // Get the rigidbody component
+    // Apply a force in the direction the enemy is facing
     void Start()
     {
         rb = GetComponent<Rigidbody>();
@@ -16,7 +20,8 @@ public class Enemy_Bullet_Controller : MonoBehaviour
         Invoke("DestroySelf", 2f);
     }
 
-        void OnTriggerEnter(Collider collision)
+    // Call destory self if the bullet collides with the floor or the player
+    void OnTriggerEnter(Collider collision)
     {
         if (collision.gameObject.CompareTag("Player")) {
             DestroySelf();
@@ -26,6 +31,7 @@ public class Enemy_Bullet_Controller : MonoBehaviour
         }
     }
     
+    // Used to destroy itself :)
     void DestroySelf()
     {
         Destroy(gameObject);
