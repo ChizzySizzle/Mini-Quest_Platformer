@@ -61,7 +61,7 @@ public class Player_Controller : MonoBehaviour
         Vector3 moveDirection = transform.right * moveVector.x + transform.forward * moveVector.z;
 
         // Apply movement only when player speed is below max specified limit
-        if (rb.velocity.magnitude < maxSpeed) {
+        if (rb.linearVelocity.magnitude < maxSpeed) {
             // Apply move direction force multiplied by specified acceleration value
             if (isGrounded == true) {
                 rb.AddForce(moveDirection * acceleration);
@@ -73,7 +73,7 @@ public class Player_Controller : MonoBehaviour
         }
         
         // Update the animation controller speed variable
-        animationController.SetFloat("Speed", Mathf.Abs(rb.velocity.x) + Mathf.Abs(rb.velocity.z));
+        animationController.SetFloat("Speed", Mathf.Abs(rb.linearVelocity.x) + Mathf.Abs(rb.linearVelocity.z));
     }
 
     // When player collides with the ground, set grounded variable to true for player and animation controller

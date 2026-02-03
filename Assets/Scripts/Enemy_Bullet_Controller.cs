@@ -15,7 +15,7 @@ public class Enemy_Bullet_Controller : MonoBehaviour
     void Start()
     {
         rb = GetComponent<Rigidbody>();
-        rb.velocity = transform.forward * bulletSpeed;
+        rb.linearVelocity = transform.forward * bulletSpeed;
 
         Invoke("DestroySelf", 2f);
     }

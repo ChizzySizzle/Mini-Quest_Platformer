@@ -22,9 +22,9 @@ public class Bullet_Controller : MonoBehaviour
 
         player = FindObjectOfType<Player_Controller>();
         Rigidbody p_rb = player.GetComponent<Rigidbody>();
-        Vector3 p_Vel = new Vector3(p_rb.velocity.x, 0, p_rb.velocity.z);
+        Vector3 p_Vel = new Vector3(p_rb.linearVelocity.x, 0, p_rb.linearVelocity.z);
         
-        rb.velocity = transform.forward * bulletSpeed + p_Vel;
+        rb.linearVelocity = transform.forward * bulletSpeed + p_Vel;
 
         //Destroy the bullet after 2 seconds of travel
         Invoke("DestroySelf", 2f);
